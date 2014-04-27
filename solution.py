@@ -36,3 +36,15 @@ class Railroad(nx.DiGraph):
             elif start_end_matches and max_stops is None:
                 matching_trips.append(trip)
         return matching_trips
+
+    def get_routes(self, start, end, max_distance=None):
+        if max_distance is not None:
+            paths = list(nx.all_simple_paths(self, start, end, cutoff=max_distance))
+        else:
+            paths = nx.all_simple_paths(self, start, end)
+        return paths
+
+    def get_shortest_route_distance(self, start, end):
+        routes = self.get_routes(start, end)
+        return min([self.get_route_distance("".join(route))
+                    for route in routes])

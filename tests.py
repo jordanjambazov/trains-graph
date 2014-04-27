@@ -51,6 +51,17 @@ class TrainTests(unittest.TestCase):
         self.assertEqual(len(trips_from_c_to_c), 2,
                          "Number of trips from C to C with 3 max stops.")
 
+    def test_shortest_route(self):
+        shortest_a_c = self.railroad.get_shortest_route_distance('A', 'C')
+        shortest_b_b = self.railroad.get_shortest_route_distance('B', 'B')
+        self.assertEqual(shortest_a_c, 9)
+        self.assertEqual(shortest_b_b, 9)
+
+    def test_routes_with_distance_less_than(self):
+        number_of_routes = len(self.railroad.get_routes('C', 'C',
+                                                        max_distance=30))
+        self.assertEqual(number_of_routes, 7)
+
     def tearDown(self):
         del self.railroad
 
