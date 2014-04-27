@@ -7,6 +7,8 @@ class TrainTests(unittest.TestCase):
         self.railroad = solution.Railroad()
         graph_data = 'AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7'
         self.railroad.populate_graph(graph_data)
+        trips_data = 'CDC, CEBC, CEBCDC, CDCEBC, CDEBC, CEBCEBC, CEBCEBCEBC'
+        self.railroad.set_trips(trips_data)
 
     def test_railroad_graph_input(self):
         self.assertEqual(set(self.railroad.nodes()),
@@ -43,6 +45,11 @@ class TrainTests(unittest.TestCase):
         distance_5 = self.railroad.get_route_distance('AED')
         self.assertEqual(distance_5, "NO SUCH ROUTE",
                          "Wrong route does not match.")
+
+    def test_trips(self):
+        trips_from_c_to_c = self.railroad.get_trips('C', 'C', max_stops=3)
+        self.assertEqual(len(trips_from_c_to_c), 2,
+                         "Number of trips from C to C with 3 max stops.")
 
     def tearDown(self):
         del self.railroad
